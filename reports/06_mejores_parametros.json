@@ -1,0 +1,60 @@
+{
+  "modelo_final": "lightgbm",
+  "parametros_elegidos": "optimizado",
+  "parametros": {
+    "n_estimators": 598,
+    "learning_rate": 0.011138203374803455,
+    "num_leaves": 61,
+    "min_child_samples": 60,
+    "subsample": 0.8094171871101763,
+    "colsample_bytree": 0.4214604062087043,
+    "reg_lambda": 0.5969406044597405
+  },
+  "variables": {
+    "use_prosper_scores": true,
+    "use_prosper_history": true,
+    "group_employment": true,
+    "exclude": [
+      "TotalProsperPaymentsBilled",
+      "OpenCreditLines",
+      "TotalCreditLinespast7years",
+      "EstimatedReturn",
+      "ProsperPaymentsOneMonthPlusLate",
+      "Recommendations",
+      "PublicRecordsLast12Months",
+      "CurrentlyInGroup"
+    ]
+  },
+  "busqueda": {
+    "lightgbm": {
+      "mejor_pr_auc_cv": 0.6131325213143689,
+      "mejores_parametros": {
+        "n_estimators": 598,
+        "learning_rate": 0.011138203374803455,
+        "num_leaves": 61,
+        "min_child_samples": 60,
+        "subsample": 0.8094171871101763,
+        "colsample_bytree": 0.4214604062087043,
+        "reg_lambda": 0.5969406044597405
+      },
+      "ensayos": 30,
+      "mlflow_parent_run_id": "618e1bcae87e425ab8ce7791da0a906a"
+    },
+    "xgboost": {
+      "mejor_pr_auc_cv": 0.6117049670496436,
+      "mejores_parametros": {
+        "n_estimators": 404,
+        "learning_rate": 0.029540144203276334,
+        "max_depth": 7,
+        "min_child_weight": 2.2978102041998243,
+        "subsample": 0.8543313902723669,
+        "colsample_bytree": 0.5903861433794483,
+        "reg_lambda": 0.29363383506607543
+      },
+      "ensayos": 20,
+      "mlflow_parent_run_id": "239415e578294fc48e88d4178531f9d5"
+    }
+  },
+  "tracking": "local",
+  "experimento": "eco-score-optimizacion"
+}
