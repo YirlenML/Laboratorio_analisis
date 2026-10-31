@@ -1,0 +1,119 @@
+# Especificación del proyecto
+
+> Plantilla. Complétenla en el grupo y manténganla actualizada. Claude la lee antes de generar
+> código: lo que escriban aquí manda sobre cualquier otra suposición.
+>
+> **Estado: borrador (30 oct).** Las cifras salen del CSV original `data/raw/prosperLoanData.csv`.
+> Lo marcado como **[por confirmar]** lo decide el grupo.
+
+## 1. Grupo
+
+| Integrante | Rol (datos / modelado / app / negocio) |
+|---|---|
+| Carolina Florez Lopez | datos |
+| Monica Patricia Vega | app |
+| Juan Camilo Ramirez | negocio |
+| Carolina Giraldo Toro | modelado |
+| Yirlen Dayanny Mosquera | app |
+
+> Roles asignados por sorteo el 30 oct. Hay 4 roles para 5 personas, por eso "app" quedó repetido.
+
+Nombre de la "startup": **Eco-Score**   Repositorio (público): https://github.com/YirlenML/Laboratorio_analisis
+
+## 2. Caso de negocio
+
+- **Pregunta de negocio** (una frase, que alguien sin formación técnica entienda):
+  ¿Podemos anticipar qué préstamos personales terminarán en impago y saber si vivir en un estado con alto
+  riesgo de inundación o precipitación extrema agrega información a esa predicción, más allá del perfil
+  financiero del prestatario?
+- **¿Quién usará el resultado y qué decisión tomará con él?** El analista de riesgo de una plataforma de
+  préstamos entre personas (como Prosper). Usa el puntaje para **priorizar la revisión** de solicitudes y
+  ajustar condiciones (monto, plazo, tasa). El analista conserva la decisión final. Enfoque académico.
+- **¿Qué cuesta equivocarse?** (cuál error es peor y por qué):
+  - **No detectar un impago** (falso negativo): se presta a quien no pagará y se pierde el capital. Es el error
+    **más caro**.
+  - **Marcar como riesgoso a quien sí paga** (falso positivo): se rechaza o encarece un buen crédito y se pierden
+    sus intereses. El daño es menor y recuperable porque el analista revisa el caso.
+  - Además, penalizar a un prestatario **solo por el estado donde vive** sería injusto si el clima no agrega
+    información real (ver sección 5).
+
+## 3. Datos
+
+- **Fuente** (enlace de Kaggle, empresa, etc.): *Prosper Loan Data* (Kaggle, publicado por Henry Okam),
+  https://www.kaggle.com/datasets/henryokam/prosper-loan-data. Datos de la plataforma de préstamos Prosper,
+  archivo `prosperLoanData.csv` (separador `;`).
+- **Índice climático (`Precipitation_Risk_Index`):** **supuesto académico del grupo**, sin fuente verificable.
+  - Es una matriz manual de 10 estados en `eco_score_pd.ipynb`, con valores de 0 a 100; los demás estados reciben 50,0.
+  - Los valores se inspiraron en la idea general de los mapas de riesgo de FEMA y NOAA, pero no salen de una tabla
+    citada.
+  - Por eso no se presenta como dato oficial: es la hipótesis que el proyecto pone a prueba.
+- **Filas / columnas:** 113.937 × 81 (préstamos originados entre nov. 2005 y mar. 2014).
+- **Variable objetivo** (columna que queremos predecir o describir): `is_default` (**aprobado el 30 oct**), que vale 1 si
+  `LoanStatus` es `Chargedoff` o `Defaulted` y 0 si es `Completed`. Solo se usan préstamos **terminados**, porque en
+  los demás todavía no se sabe el resultado. Población: 49.552 préstamos, de los cuales 15.380 (31,04 %) cayeron
+  en impago. Ver decisión 1 de `reports/01_eda.md`.
+- **Tipo de problema:** ☒ clasificación (binaria)  ☐ regresión  ☐ clusterización
+- **¿Una misma entidad (cliente, paciente, empresa) aparece en varias filas?** ☐ no  ☒ sí → la partición
+  será por: **`MemberKey`** (prestatario). Hay 15.744 prestatarios con más de un préstamo, que suman 38.149 filas,
+  y uno llega a tener 9 préstamos.
+- **Datos personales o confidenciales presentes:** ☐ no  ☒ sí → no hay nombres ni documentos. Hay llaves
+  seudónimas (`MemberKey`, `ListingKey`, `LoanKey`, `GroupKey`) y cuasi-identificadores (`Occupation`,
+  `BorrowerState`). Las llaves se quitan de las variables del modelo y `MemberKey` se usa solo para partir.
+- **Licencia o permiso de uso de los datos:** **CC0: Public Domain**, según los metadatos del dataset en Kaggle
+  (consultados el 30 oct). Permite usarlo sin restricciones.
+
+## 4. Métrica
+
+- **Métrica principal:** **AUC-PR (precisión promedio) de la clase impago** — aprobada el 30 oct.
+  **Por qué esa y no otra:** el impago es la clase minoritaria (31 %) y el error más caro es no detectarlo.
+  AUC-PR mide qué tan bien se ordenan los impagos arriba de la lista de revisión, sin depender de un umbral.
+  La exactitud (accuracy) no sirve: decir "nadie cae en impago" ya da 68,96 %.
+- **Métricas secundarias:** recall de impago con el umbral elegido, ROC-AUC, F1 de impago y Brier (calibración).
+  **Clave para el caso:** diferencia de AUC-PR **con y sin** el índice climático.
+- **Línea base** (qué resultado obtiene una regla simple o un modelo trivial): predecir siempre "no impago" →
+  exactitud 68,96 %, recall de impago 0 y AUC-PR igual a la proporción de impagos (≈ 0,31).
+
+## 5. Riesgos
+
+- **Fuga de información posible:**
+  - Varias columnas solo se conocen **después** de otorgar el préstamo: `LP_*` (8 columnas de pagos y pérdidas),
+    `ClosedDate`, `LoanCurrentDaysDelinquent`, `LoanFirstDefaultedCycleNumber` y `LoanMonthsSinceOrigination`.
+  - La escala actual del notebook (`Target_Risk_Scale`) se construye con el índice climático, que también es una
+    variable del modelo: el 94,0 % de las filas reciben su escala solo por el clima.
+- **Sesgos o equidad:**
+  - El índice climático asigna riesgo por **estado de residencia**. Puede castigar a toda la población de un estado.
+  - 41 de los 51 estados reciben el valor por defecto 50,0 (58.204 de 108.422 filas).
+  - La tasa de impago **no** sigue al índice en los 10 estados con valor: UT (10,5) tiene 28,3 % de impago y
+    FL (94,2) tiene 32,0 %, mientras NY tiene 23,1 % y GA 37,0 %.
+- **Datos faltantes o de mala calidad:**
+  - `BorrowerState` vacío en 5.515 filas, casi todas de 2005–2007.
+  - Antes de 2009 no existen `EstimatedEffectiveYield` ni `ProsperRating` (cambio de sistema de Prosper).
+  - Las fechas `ListingCreationDate` y `DateCreditPulled` llegan dañadas (por ejemplo `09:29.3`).
+  - Valores imposibles en `CreditScoreRangeLower` (0), `StatedMonthlyIncome` y `DebtToIncomeRatio`
+    (ver `reports/01_eda.md`).
+- **Límites de lo que el modelo puede decir:**
+  - Muestra asociación, no causalidad: no puede afirmar que el clima **cause** impagos.
+  - El índice es estatal y fijo en el tiempo, no mide un evento climático real en la fecha del préstamo.
+  - Los préstamos recientes que ya terminaron son sobre todo los que terminaron rápido. Por eso la tasa de
+    impago cambia mucho por año, de 53,1 % en 2006 a 12,9 % en 2013.
+
+## 6. Entregables y fechas
+
+| Hito | Contenido | Fecha |
+|---|---|---|
+| H1 | Ficha aprobada, EDA y preprocesamiento reproducible | Cierre de la clase 2 (vie 30 oct) |
+| H2 | Torneo, optimización con tracking, modelo registrado, repo modular, app local | Cierre de la clase 4 (jue 5 nov) |
+| H3 | App desplegada y presentación (≤ 5 diapositivas) | Clase 5 (vie 6 nov) |
+| H4 | Informe técnico final (hasta 8 días tras la última clase) | Domingo 15 nov |
+
+## 7. Decisiones tomadas (agréguenlas a medida que avancen)
+
+| Fecha | Decisión | Motivo |
+|---|---|---|
+| (antes del 30 oct) | Conservar 11 de las 81 columnas (`eco_score_pd.ipynb`) | Limitaciones de procesamiento y foco en variables financiero-climáticas |
+| (antes del 30 oct) | Crear `Precipitation_Risk_Index` (0–100) para 10 estados; el resto recibe 50,0 | Enfoque académico con referencia a FEMA/NOAA |
+| 30 oct | El índice climático se declara **supuesto académico** sin fuente verificable | El grupo no tiene la tabla de origen de los 10 valores; se usa como hipótesis a probar, no como dato oficial |
+| 30 oct · **aprobada** | Cambiar el objetivo de `Target_Risk_Scale` (4 escalas) a `is_default` binario sobre préstamos terminados | La escala actual depende del índice climático (fuga circular) y clasifica 10.952 `Chargedoff` como "Saludable" |
+| 30 oct · **aprobada** | Usar el índice climático como **variable** y medir el modelo con y sin ella | Responde la pregunta de negocio sin suponer la respuesta |
+| 30 oct · **aprobada** | Partir por `MemberKey`, con 20 % para prueba (semilla 42) | 15.744 prestatarios tienen varios préstamos y el 15,2 % de los repetidos tiene resultados distintos entre ellos |
+| 30 oct · **aprobada** | Métrica principal: AUC-PR de la clase impago; control: costo esperado con matriz 4 a 1 | El impago es minoritario (31 %) y no detectarlo cuesta unas 4 veces más que rechazar a un buen cliente (`notebooks/01_caso_negocio.ipynb`) |
