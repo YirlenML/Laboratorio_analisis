@@ -16,8 +16,13 @@ data/raw/*
 !data/raw/.gitkeep
 
 # Datos procesados: se regeneran con el notebook 03 (contienen MemberKey)
-data/processed/*
-!data/processed/.gitkeep
+#data/processed/*
+#!data/processed/.gitkeep
+
+# Parquet originales: conservan MemberKey (dato sensible) y se usan solo en local.
+# Al repo van las copias *_sin_memberkey.parquet
+data/processed/train.parquet
+data/processed/test.parquet
 
 # Sistema operativo y editores
 .DS_Store
