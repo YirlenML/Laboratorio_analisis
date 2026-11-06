@@ -14,6 +14,7 @@ REPORTS_DIR = ROOT / "reports"
 RANDOM_STATE = 42
 TEST_SIZE = 0.2
 GROUP_COL = "MemberKey"  # unidad para partir: el prestatario, no la fila
+ANONYMOUS_GROUP_COL = "borrower_id"  # número que reemplaza a MemberKey en los archivos que se versionan
 TARGET = "is_default"
 
 # 0 = pagó, 1 = impago

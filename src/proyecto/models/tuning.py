@@ -125,7 +125,7 @@ def tune(name: str, X: pd.DataFrame, y: np.ndarray, cv, n_trials: int, seed: int
     remaining = max(n_trials - done, 0)
     if done:
         print(f"  {name}: se reanuda el estudio ({done} ensayos ya hechos, faltan {remaining})")
-    if log:
+    if log and remaining:  # un estudio ya completo no abre otra ejecución madre vacía en MLflow
         with mlflow.start_run(run_name=f"optuna-{name}") as parent:
             study.optimize(objective, n_trials=remaining)
             mlflow.log_metric(f"best_{metric}", study.best_value)
