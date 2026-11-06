@@ -16,7 +16,14 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder
 
-from proyecto.inference.predict import InputValidationError, decide_min_cost, predict_with_scores, validate_inputs
+from proyecto.inference.predict import (
+    InputValidationError,
+    decide_min_cost,
+    input_frame,
+    predict_with_scores,
+    required_columns,
+    validate_inputs,
+)
 from proyecto.inference.schema import build_schema, load_schema
 
 NUMERIC, CATEGORICAL, CLASSES = ["edad", "ingreso"], ["ciudad"], ["bajo", "alto"]
@@ -128,3 +135,23 @@ def test_app_module_imports_without_launching_streamlit():
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)   # no ejecuta main(): solo importa
     assert callable(module.main) and module.UNKNOWN == "(no sé)"
+
+
+def test_required_columns_exclude_identifiers():
+    numeric, text = required_columns()
+    columns = numeric + text
+    assert len(columns) == len(set(columns))
+    assert {"MemberKey", "borrower_id", "is_default", "BorrowerState", "has_prior_prosper_loan"}.isdisjoint(columns)
+    assert "EmploymentStatus" in columns and "employment_status_grouped" not in columns
+
+
+def test_input_frame_converts_types_and_keeps_missing_values():
+    numeric, text = required_columns()
+    df = pd.DataFrame({**{c: [1, 2] for c in numeric}, **{c: ["a", None] for c in text}, "borrower_id": [7, 8]})
+    df["ListingCategory (numeric)"] = [3, 4]
+    out = input_frame(df)
+    assert list(out.columns) == numeric + text
+    assert all(out[c].dtype == "float64" for c in numeric)
+    assert out["CreditGrade"].tolist() == ["a", None]
+    assert out["ListingCategory (numeric)"].tolist() == ["3", "4"]
+    assert df["Term"].dtype != "float64"  # no modifica el original

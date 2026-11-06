@@ -1,0 +1,1 @@
+Prueba abierta el 2026-11-05T20:11:30 · modelo lightgbm · 9,911 préstamos, 8,111 prestatarios. Una sola vez.

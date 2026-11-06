@@ -1,0 +1,94 @@
+,|SHAP| medio
+BorrowerAPR,0.2931
+EstimatedEffectiveYield,0.1765
+MonthlyLoanPayment,0.1513
+StatedMonthlyIncome,0.1428
+CreditScoreRangeLower,0.0918
+TotalInquiries,0.0917
+CurrentDelinquencies,0.0898
+DebtToIncomeRatio,0.0874
+InquiriesLast6Months,0.0809
+Term,0.0757
+LoanOriginalAmount,0.0608
+TradesOpenedLast6Months,0.0579
+OpenRevolvingMonthlyPayment,0.0577
+CreditGrade_Unknown,0.0497
+OnTimeProsperPayments,0.0466
+ProsperPrincipalOutstanding,0.0461
+AvailableBankcardCredit,0.0458
+AmountDelinquent,0.0415
+TotalTrades,0.0379
+ProsperPrincipalBorrowed,0.0373
+OpenRevolvingAccounts,0.0369
+ListingCategory (numeric)_0,0.0369
+EstimatedLoss,0.0352
+employment_status_grouped_Employed,0.0335
+BankcardUtilization,0.0317
+ProsperScore,0.03
+IsBorrowerHomeowner_FALSO,0.0279
+EmploymentStatusDuration,0.0273
+RevolvingCreditBalance,0.0244
+missingindicator_ProsperRating (numeric),0.0229
+TotalProsperLoans,0.0221
+TradesNeverDelinquent (percentage),0.0186
+ProsperRating (numeric),0.0179
+ProsperPaymentsLessThanOneMonthLate,0.0179
+IsBorrowerHomeowner_VERDADERO,0.0175
+DelinquenciesLast7Years,0.0172
+ScorexChangeAtTimeOfListing,0.0162
+CreditGrade_AA,0.0154
+CurrentCreditLines,0.0151
+ListingCategory (numeric)_3,0.0147
+"IncomeRange_$25,000-49,999",0.0135
+ListingCategory (numeric)_1,0.0128
+PublicRecordsLast10Years,0.0116
+"IncomeRange_$100,000+",0.0107
+has_prior_prosper_loan,0.0102
+missingindicator_ProsperScore,0.01
+missingindicator_EstimatedEffectiveYield,0.009
+employment_status_grouped_Self-employed,0.008
+CreditGrade_HR,0.0068
+ListingCategory (numeric)_6,0.0062
+missingindicator_DebtToIncomeRatio,0.0061
+"IncomeRange_$50,000-74,999",0.0054
+missingindicator_CurrentCreditLines,0.0051
+ListingCategory (numeric)_13,0.0045
+missingindicator_EmploymentStatusDuration,0.0043
+missingindicator_EstimatedLoss,0.0037
+IncomeVerifiable_FALSO,0.0037
+CreditGrade_A,0.0035
+missingindicator_AvailableBankcardCredit,0.0034
+missingindicator_ScorexChangeAtTimeOfListing,0.0034
+ListingCategory (numeric)_2,0.003
+IncomeVerifiable_VERDADERO,0.0029
+IncomeRange_Not displayed,0.0028
+ListingCategory (numeric)_4,0.0025
+ListingCategory (numeric)_7,0.0025
+"IncomeRange_$1-24,999",0.0022
+missingindicator_TotalTrades,0.0022
+missingindicator_TradesNeverDelinquent (percentage),0.0022
+missingindicator_RevolvingCreditBalance,0.0021
+employment_status_grouped_Other,0.0017
+"IncomeRange_$75,000-99,999",0.0015
+CreditGrade_E,0.0011
+CreditGrade_infrequent_sklearn,0.0011
+CreditGrade_C,0.001
+missingindicator_BankcardUtilization,0.0009
+CreditGrade_D,0.0008
+CreditGrade_B,0.0007
+missingindicator_CreditScoreRangeLower,0.0007
+missingindicator_TotalInquiries,0.0006
+employment_status_grouped_Unknown,0.0005
+employment_status_grouped_Retired,0.0005
+missingindicator_AmountDelinquent,0.0004
+ListingCategory (numeric)_infrequent_sklearn,0.0002
+ListingCategory (numeric)_5,0.0001
+employment_status_grouped_Not employed,0.0001
+missingindicator_TradesOpenedLast6Months,0.0001
+IncomeRange_Not employed,0.0001
+missingindicator_DelinquenciesLast7Years,0.0001
+IncomeRange_$0,0.0001
+missingindicator_StatedMonthlyIncome,0.0
+missingindicator_InquiriesLast6Months,0.0
+missingindicator_CurrentDelinquencies,0.0
+missingindicator_PublicRecordsLast10Years,0.0

@@ -1,0 +1,144 @@
+{
+  "decisiones": {
+    "fecha_y_hora": "2026-11-05T20:09:49",
+    "modelo_final": "lightgbm",
+    "parametros": {
+      "n_estimators": 598,
+      "learning_rate": 0.011138203374803455,
+      "num_leaves": 61,
+      "min_child_samples": 60,
+      "subsample": 0.8094171871101763,
+      "colsample_bytree": 0.4214604062087043,
+      "reg_lambda": 0.5969406044597405
+    },
+    "variables": "FINAL_FEATURES (sin índice climático ni borrower_id)",
+    "calibrar": false,
+    "metrica_principal": "AUC-PR de impago (mayor es mejor)",
+    "metricas_de_control": [
+      "costo 4 a 1",
+      "ROC-AUC",
+      "Brier",
+      "recall de impago",
+      "F1 de impago"
+    ],
+    "regla_de_decision": "menor costo esperado con la matriz 4 a 1: marcar impago si P(impago) > 0,2",
+    "linea_base": "proporción de impagos del entrenamiento (la del torneo)",
+    "como_se_decidio": "reserva de prestatarios de la etapa 6 (25 % del entrenamiento); la prueba no se miró",
+    "reserva": {
+      "prestamos": 9910,
+      "pr_auc": 0.6080485648975461,
+      "cost": 0.5072653884964682
+    },
+    "calibracion": {
+      "metodo": "sigmoide",
+      "log_loss_sin": 0.5087769834030041,
+      "log_loss_con": 0.5086823353686539,
+      "costo_sin": 0.5072653884964682,
+      "costo_con": 0.5081735620585267,
+      "diferencia_costo": 0.0009081735620585267,
+      "ic95_costo": [
+        -0.005550790278295559,
+        0.007161269458749938
+      ]
+    }
+  },
+  "prueba": {
+    "prestamos": 9911,
+    "prestatarios": 8111
+  },
+  "metricas_modelo": {
+    "pr_auc": 0.6208753232643422,
+    "roc_auc": 0.7779943931972569,
+    "log_loss": 0.5067852332847192,
+    "brier": 0.16859149969427223,
+    "cost": 0.520835435374836,
+    "cost_argmax": 0.8179800221975583,
+    "recall_default": 0.8751625487646294,
+    "precision_default": 0.42608420386198165,
+    "f1_default": 0.5731317862465404,
+    "flagged_rate": 0.6374735142770659
+  },
+  "metricas_linea_base": {
+    "pr_auc": 0.31036222379174655,
+    "roc_auc": 0.5,
+    "log_loss": 0.6193901813272112,
+    "brier": 0.21403751438647317,
+    "cost": 0.6896377762082535,
+    "cost_argmax": 1.2414488951669862,
+    "recall_default": 1.0,
+    "precision_default": 0.31036222379174655,
+    "f1_default": 0.4737044737044737,
+    "flagged_rate": 1.0
+  },
+  "intervalos": [
+    {
+      "medida": "AUC-PR (mayor es mejor)",
+      "valor": 0.6208753232643422,
+      "IC 95 % inferior": 0.6043624001027884,
+      "IC 95 % superior": 0.6407050463423962
+    },
+    {
+      "medida": "costo por solicitud (menor es mejor)",
+      "valor": 0.520835435374836,
+      "IC 95 % inferior": 0.5042525530721189,
+      "IC 95 % superior": 0.5375898952415458
+    },
+    {
+      "medida": "Brier (menor es mejor)",
+      "valor": 0.16859149969427223,
+      "IC 95 % inferior": 0.16442439853725016,
+      "IC 95 % superior": 0.17253975563668397
+    },
+    {
+      "medida": "AUC-PR: modelo − línea base",
+      "valor": 0.3105130994725957,
+      "IC 95 % inferior": 0.29592010066164376,
+      "IC 95 % superior": 0.3269901695851095
+    },
+    {
+      "medida": "costo: modelo − línea base",
+      "valor": -0.1688023408334174,
+      "IC 95 % inferior": -0.18867141616700778,
+      "IC 95 % superior": -0.14847372707399173
+    }
+  ],
+  "supera_a_la_linea_base_con_confianza": true,
+  "ahorro_usd_por_1000_solicitudes": 194848.5420240137,
+  "indice_climatico": {
+    "diferencia_pr_auc": 0.00229007505747858,
+    "ic95_pr_auc": [
+      0.00032215097780619316,
+      0.004492000928752848
+    ],
+    "diferencia_costo": -0.0046413076379780045,
+    "ic95_costo": [
+      -0.010592398478920744,
+      0.00100559885176091
+    ],
+    "agrega_informacion": true
+  },
+  "desde_julio_2009": {
+    "prestamos": 5329,
+    "pr_auc": 0.4788829281257714,
+    "ic95": [
+      0.4480196739895029,
+      0.5102232168336226
+    ],
+    "metricas": {
+      "pr_auc": 0.4788829281257714,
+      "roc_auc": 0.7506388788607332,
+      "log_loss": 0.4776515698631889,
+      "brier": 0.15634360026382474,
+      "cost": 0.5355601426158754,
+      "cost_argmax": 0.8138487521110903,
+      "recall_default": 0.7889837083010085,
+      "precision_default": 0.36543298598634566,
+      "f1_default": 0.4995088408644401,
+      "flagged_rate": 0.522236817414149
+    }
+  },
+  "carga": {
+    "porcentaje_marcado": 0.6374735142770659,
+    "impagos_sin_revision": 384
+  }
+}

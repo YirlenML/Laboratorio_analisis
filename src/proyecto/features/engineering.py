@@ -213,7 +213,7 @@ def build_preprocessor(scale: bool = True, **feature_flags) -> ColumnTransformer
     if scale:
         numeric_steps.append(("scale", StandardScaler()))
     categorical_steps = [
-        ("text", FunctionTransformer(to_text)),
+        ("text", FunctionTransformer(to_text, feature_names_out="one-to-one")),
         ("impute", SimpleImputer(strategy="constant", fill_value="Unknown")),
         ("onehot", OneHotEncoder(handle_unknown="infrequent_if_exist", min_frequency=0.01, sparse_output=False)),
     ]

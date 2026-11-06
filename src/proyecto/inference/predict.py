@@ -20,9 +20,39 @@ import joblib
 import numpy as np
 import pandas as pd
 
+from proyecto.features.engineering import FINAL_FEATURES, feature_columns
+
+# Columnas que `add_features` necesita leer aunque el modelo final no use lo que calcula con ellas
+FEATURE_STEP_NUMERIC = ["TotalProsperPaymentsBilled", "ProsperPaymentsOneMonthPlusLate"]
+FEATURE_STEP_TEXT = ["LoanOriginationDate", "FirstRecordedCreditLine"]
+DERIVED_NUMERIC = ["has_prior_prosper_loan"]
+
 
 class InputValidationError(ValueError):
     """Los datos de entrada no son válidos; el mensaje dice qué corregir."""
+
+
+def required_columns() -> tuple[list[str], list[str]]:
+    """(numéricas, de texto) crudas que necesita el pipeline final; ni `MemberKey` ni `borrower_id` están entre ellas."""
+    numeric, categorical = feature_columns(**FINAL_FEATURES)
+    numeric = [c for c in numeric if c not in DERIVED_NUMERIC] + FEATURE_STEP_NUMERIC
+    categorical = ["EmploymentStatus" if c == "employment_status_grouped" else c for c in categorical]
+    return numeric, categorical + FEATURE_STEP_TEXT
+
+
+def input_frame(df: pd.DataFrame) -> pd.DataFrame:
+    """Deja `df` con las columnas de entrada: numéricas en float y el resto como texto, con los vacíos como `None`.
+
+    Un entero con vacíos no cabe en la firma de MLflow, por eso todo lo numérico pasa a float.
+    """
+    numeric, text = required_columns()
+    out = df[numeric + text].copy()
+    out[numeric] = out[numeric].astype("float64")
+    for column in text:
+        out[column] = pd.Series(
+            [None if pd.isna(value) else str(value) for value in df[column]], index=df.index, dtype=object,
+        )
+    return out
 
 
 def load_model(path: str | Path):

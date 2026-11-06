@@ -126,3 +126,9 @@ def test_preprocessor_handles_unseen_category_and_missing():
     for c in cat:
         new[c] = ["nunca_visto", np.nan]
     assert not np.isnan(prep.transform(new)).any()
+
+
+def test_categorical_pipeline_exposes_feature_names():
+    df = pd.DataFrame({"IncomeRange": ["$0"] * 5 + [None]})
+    categorical = build_preprocessor(scale=False).transformers[1][1].fit(df)
+    assert any("IncomeRange" in name for name in categorical.get_feature_names_out())

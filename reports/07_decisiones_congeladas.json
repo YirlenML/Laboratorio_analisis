@@ -1,0 +1,43 @@
+{
+  "fecha_y_hora": "2026-11-05T20:09:49",
+  "modelo_final": "lightgbm",
+  "parametros": {
+    "n_estimators": 598,
+    "learning_rate": 0.011138203374803455,
+    "num_leaves": 61,
+    "min_child_samples": 60,
+    "subsample": 0.8094171871101763,
+    "colsample_bytree": 0.4214604062087043,
+    "reg_lambda": 0.5969406044597405
+  },
+  "variables": "FINAL_FEATURES (sin índice climático ni borrower_id)",
+  "calibrar": false,
+  "metrica_principal": "AUC-PR de impago (mayor es mejor)",
+  "metricas_de_control": [
+    "costo 4 a 1",
+    "ROC-AUC",
+    "Brier",
+    "recall de impago",
+    "F1 de impago"
+  ],
+  "regla_de_decision": "menor costo esperado con la matriz 4 a 1: marcar impago si P(impago) > 0,2",
+  "linea_base": "proporción de impagos del entrenamiento (la del torneo)",
+  "como_se_decidio": "reserva de prestatarios de la etapa 6 (25 % del entrenamiento); la prueba no se miró",
+  "reserva": {
+    "prestamos": 9910,
+    "pr_auc": 0.6080485648975461,
+    "cost": 0.5072653884964682
+  },
+  "calibracion": {
+    "metodo": "sigmoide",
+    "log_loss_sin": 0.5087769834030041,
+    "log_loss_con": 0.5086823353686539,
+    "costo_sin": 0.5072653884964682,
+    "costo_con": 0.5081735620585267,
+    "diferencia_costo": 0.0009081735620585267,
+    "ic95_costo": [
+      -0.005550790278295559,
+      0.007161269458749938
+    ]
+  }
+}
