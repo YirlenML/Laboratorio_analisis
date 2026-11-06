@@ -38,7 +38,7 @@
         "reg_lambda": 0.5969406044597405
       },
       "ensayos": 30,
-      "mlflow_parent_run_id": "618e1bcae87e425ab8ce7791da0a906a"
+      "mlflow_parent_run_id": "3bdd243dd6ce4de18732dcb4a2121f02"
     },
     "xgboost": {
       "mejor_pr_auc_cv": 0.6117049670496436,
@@ -52,9 +52,9 @@
         "reg_lambda": 0.29363383506607543
       },
       "ensayos": 20,
-      "mlflow_parent_run_id": "239415e578294fc48e88d4178531f9d5"
+      "mlflow_parent_run_id": "95d0fad067ba41ddae91d4b21035bfe7"
     }
   },
-  "tracking": "local",
-  "experimento": "eco-score-optimizacion"
+  "tracking": "databricks (dentro del workspace)",
+  "experimento": "/Users/juan.ramirez6314@unaula.edu.co/eco-score-optimizacion"
 }
