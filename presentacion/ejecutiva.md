@@ -39,7 +39,7 @@ footer: "Casos Avanzados · Maestría en Ingeniería Analítica"
 | Costo de los errores por cada 1.000 solicitudes | ≈ USD 796.000 | ≈ USD 601.000 |
 
 - **Mejora y su intervalo:** ahorro de ≈ USD 195.000 por cada 1.000 solicitudes, IC 95 %: USD 171.000 a 218.000. La conversión a dólares es aproximada y no incluye el costo de revisar.
-- **La métrica técnica:** AUC-PR 0,6209 (IC 95 %: 0,6044 a 0,6407) frente a 0,3104 de la línea base, en 9.911 préstamos de prestatarios nunca vistos.
+- **La métrica técnica:** AUC-PR 0,6209 (IC 95 %: 0,6044 a 0,6407) frente a 0,3104 de la línea base, en 9.911 préstamos de prestatarios nunca vistos, con los 39 datos.
 
 <!-- 2 min. Rol modelado. Se usa "por cada 1.000 solicitudes" porque el proyecto no tiene un volumen mensual real. -->
 
@@ -47,7 +47,9 @@ footer: "Casos Avanzados · Maestría en Ingeniería Analítica"
 
 # 4 · En la app, cada solicitud recibe una recomendación clara y la decisión sigue siendo humana
 
-**Enlace:** [PENDIENTE: pegar el enlace público de Streamlit]
+**Enlace:** https://lvtfbkczdgz2aawa7etysv.streamlit.app
+
+La app pide 12 datos esenciales; los otros 27 son opcionales.
 
 1. **Un caso normal:** «Préstamo real que se pagó» → 6,6 % de probabilidad de impago → **Sin revisión prioritaria**.
 2. **Un caso límite:** «Préstamo real que cayó en impago» → 45,7 % → **Enviar a revisión**. Con plazo de 12 meses en vez de 36 → 17,0 % → **Sin revisión prioritaria**.
@@ -55,14 +57,14 @@ footer: "Casos Avanzados · Maestría en Ingeniería Analítica"
 
 > Plan B: captura de pantalla con fecha y la app en local (`streamlit run app/streamlit_app.py`).
 
-<!-- 4 min. Rol app. Si sobra tiempo: dejar el ingreso vacío en el primer ejemplo → 7,7 % y aviso «Se evaluó sin 1 de 39 datos». -->
+<!-- 4 min. Rol app. Si sobra tiempo: dejar el ingreso vacío en el primer ejemplo → 7,7 % y aviso «Se evaluó sin 2 de 39 datos». -->
 
 ---
 
 # 5 · Recomendación: usarlo para priorizar, nunca para decidir solo
 
 - **Qué NO hace el modelo:** no rechaza solicitudes de forma automática, no explica causas y no usa el estado de residencia.
-- **Límites de los datos:** préstamos de 2005 a 2014, solo terminados. Desde julio de 2009 detecta el 78,9 % de los impagos, no el 87,5 %, y su AUC-PR baja a 0,4789.
+- **Límites de los datos:** préstamos de 2005 a 2014, solo terminados. Desde julio de 2009 detecta el 78,9 % de los impagos, no el 87,5 %, y su AUC-PR baja a 0,4789, con los 39 datos. Con solo los 12 datos esenciales rinde menos: en la reserva, el AUC-PR baja de 0,6080 a 0,5816.
 - **Uso responsable:** usa ingreso, vivienda y situación laboral. Antes de un uso real necesita revisión legal y un análisis de trato desigual.
 - **Siguientes pasos:** validarlo con datos posteriores a 2014, definir cuántas solicitudes puede revisar el equipo y vigilar la deriva en producción.
 
