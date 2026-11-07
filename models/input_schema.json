@@ -1,0 +1,697 @@
+{
+  "numeric": [
+    "Term",
+    "LoanOriginalAmount",
+    "MonthlyLoanPayment",
+    "CreditScoreRangeLower",
+    "EmploymentStatusDuration",
+    "CurrentCreditLines",
+    "OpenRevolvingAccounts",
+    "OpenRevolvingMonthlyPayment",
+    "InquiriesLast6Months",
+    "TotalInquiries",
+    "CurrentDelinquencies",
+    "AmountDelinquent",
+    "DelinquenciesLast7Years",
+    "PublicRecordsLast10Years",
+    "RevolvingCreditBalance",
+    "BankcardUtilization",
+    "AvailableBankcardCredit",
+    "TotalTrades",
+    "TradesNeverDelinquent (percentage)",
+    "TradesOpenedLast6Months",
+    "DebtToIncomeRatio",
+    "StatedMonthlyIncome",
+    "BorrowerAPR",
+    "ProsperRating (numeric)",
+    "ProsperScore",
+    "EstimatedLoss",
+    "EstimatedEffectiveYield",
+    "TotalProsperLoans",
+    "OnTimeProsperPayments",
+    "ProsperPaymentsLessThanOneMonthLate",
+    "ProsperPrincipalBorrowed",
+    "ProsperPrincipalOutstanding",
+    "ScorexChangeAtTimeOfListing"
+  ],
+  "categorical": [
+    "IncomeRange",
+    "EmploymentStatus",
+    "IsBorrowerHomeowner",
+    "IncomeVerifiable",
+    "ListingCategory (numeric)",
+    "CreditGrade"
+  ],
+  "class_names": [
+    "pagó",
+    "impago"
+  ],
+  "categories": {
+    "IncomeRange": [
+      "$0",
+      "$1-24,999",
+      "$100,000+",
+      "$25,000-49,999",
+      "$50,000-74,999",
+      "$75,000-99,999",
+      "Not displayed",
+      "Not employed"
+    ],
+    "EmploymentStatus": [
+      "Employed",
+      "Full-time",
+      "Not available",
+      "Not employed",
+      "Other",
+      "Part-time",
+      "Retired",
+      "Self-employed"
+    ],
+    "IsBorrowerHomeowner": [
+      "FALSO",
+      "VERDADERO"
+    ],
+    "IncomeVerifiable": [
+      "FALSO",
+      "VERDADERO"
+    ],
+    "ListingCategory (numeric)": [
+      "0",
+      "1",
+      "10",
+      "11",
+      "12",
+      "13",
+      "14",
+      "15",
+      "16",
+      "17",
+      "18",
+      "19",
+      "2",
+      "20",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9"
+    ],
+    "CreditGrade": [
+      "A",
+      "AA",
+      "B",
+      "C",
+      "D",
+      "E",
+      "HR",
+      "NC"
+    ]
+  },
+  "observed_range": {
+    "Term": [
+      12.0,
+      60.0
+    ],
+    "LoanOriginalAmount": [
+      1000.0,
+      35000.0
+    ],
+    "MonthlyLoanPayment": [
+      0.15,
+      2251.51
+    ],
+    "CreditScoreRangeLower": [
+      420.0,
+      880.0
+    ],
+    "EmploymentStatusDuration": [
+      0.0,
+      755.0
+    ],
+    "CurrentCreditLines": [
+      0.0,
+      59.0
+    ],
+    "OpenRevolvingAccounts": [
+      0.0,
+      47.0
+    ],
+    "OpenRevolvingMonthlyPayment": [
+      0.0,
+      14985.0
+    ],
+    "InquiriesLast6Months": [
+      0.0,
+      97.0
+    ],
+    "TotalInquiries": [
+      0.0,
+      379.0
+    ],
+    "CurrentDelinquencies": [
+      0.0,
+      83.0
+    ],
+    "AmountDelinquent": [
+      0.0,
+      444745.0
+    ],
+    "DelinquenciesLast7Years": [
+      0.0,
+      99.0
+    ],
+    "PublicRecordsLast10Years": [
+      0.0,
+      22.0
+    ],
+    "RevolvingCreditBalance": [
+      0.0,
+      1433328.0
+    ],
+    "BankcardUtilization": [
+      0.0,
+      5.95
+    ],
+    "AvailableBankcardCredit": [
+      0.0,
+      566480.0
+    ],
+    "TotalTrades": [
+      0.0,
+      126.0
+    ],
+    "TradesNeverDelinquent (percentage)": [
+      0.0,
+      1.0
+    ],
+    "TradesOpenedLast6Months": [
+      0.0,
+      20.0
+    ],
+    "DebtToIncomeRatio": [
+      0.0,
+      10.01
+    ],
+    "StatedMonthlyIncome": [
+      0.0,
+      100000.0
+    ],
+    "BorrowerAPR": [
+      0.00653,
+      0.42395
+    ],
+    "ProsperRating (numeric)": [
+      1.0,
+      7.0
+    ],
+    "ProsperScore": [
+      1.0,
+      11.0
+    ],
+    "EstimatedLoss": [
+      0.0049,
+      0.366
+    ],
+    "EstimatedEffectiveYield": [
+      -0.1827,
+      0.3199
+    ],
+    "TotalProsperLoans": [
+      0.0,
+      7.0
+    ],
+    "OnTimeProsperPayments": [
+      0.0,
+      114.0
+    ],
+    "ProsperPaymentsLessThanOneMonthLate": [
+      0.0,
+      40.0
+    ],
+    "ProsperPrincipalBorrowed": [
+      0.0,
+      53200.0
+    ],
+    "ProsperPrincipalOutstanding": [
+      0.0,
+      22586.67
+    ],
+    "ScorexChangeAtTimeOfListing": [
+      -175.0,
+      257.0
+    ]
+  },
+  "median": {
+    "Term": 36.0,
+    "LoanOriginalAmount": 4750.0,
+    "MonthlyLoanPayment": 173.71,
+    "CreditScoreRangeLower": 680.0,
+    "EmploymentStatusDuration": 53.0,
+    "CurrentCreditLines": 9.0,
+    "OpenRevolvingAccounts": 5.0,
+    "OpenRevolvingMonthlyPayment": 199.0,
+    "InquiriesLast6Months": 1.0,
+    "TotalInquiries": 5.0,
+    "CurrentDelinquencies": 0.0,
+    "AmountDelinquent": 0.0,
+    "DelinquenciesLast7Years": 0.0,
+    "PublicRecordsLast10Years": 0.0,
+    "RevolvingCreditBalance": 6222.5,
+    "BankcardUtilization": 0.57,
+    "AvailableBankcardCredit": 3341.0,
+    "TotalTrades": 20.0,
+    "TradesNeverDelinquent (percentage)": 0.92,
+    "TradesOpenedLast6Months": 1.0,
+    "DebtToIncomeRatio": 0.2,
+    "StatedMonthlyIncome": 4166.666667,
+    "BorrowerAPR": 0.2194,
+    "ProsperRating (numeric)": 3.0,
+    "ProsperScore": 6.0,
+    "EstimatedLoss": 0.098,
+    "EstimatedEffectiveYield": 0.1715,
+    "TotalProsperLoans": 1.0,
+    "OnTimeProsperPayments": 15.0,
+    "ProsperPaymentsLessThanOneMonthLate": 0.0,
+    "ProsperPrincipalBorrowed": 5000.0,
+    "ProsperPrincipalOutstanding": 1089.49,
+    "ScorexChangeAtTimeOfListing": 0.0
+  },
+  "integer_columns": [
+    "Term",
+    "LoanOriginalAmount",
+    "CreditScoreRangeLower",
+    "EmploymentStatusDuration",
+    "CurrentCreditLines",
+    "OpenRevolvingAccounts",
+    "OpenRevolvingMonthlyPayment",
+    "InquiriesLast6Months",
+    "TotalInquiries",
+    "CurrentDelinquencies",
+    "AmountDelinquent",
+    "DelinquenciesLast7Years",
+    "PublicRecordsLast10Years",
+    "RevolvingCreditBalance",
+    "AvailableBankcardCredit",
+    "TotalTrades",
+    "TradesOpenedLast6Months",
+    "ProsperRating (numeric)",
+    "ProsperScore",
+    "TotalProsperLoans",
+    "OnTimeProsperPayments",
+    "ProsperPaymentsLessThanOneMonthLate",
+    "ScorexChangeAtTimeOfListing"
+  ],
+  "valid_range": {
+    "Term": [
+      1.0,
+      120.0
+    ],
+    "LoanOriginalAmount": [
+      1.0,
+      1000000.0
+    ],
+    "MonthlyLoanPayment": [
+      0.0,
+      100000.0
+    ],
+    "CreditScoreRangeLower": [
+      300.0,
+      900.0
+    ],
+    "EmploymentStatusDuration": [
+      0.0,
+      960.0
+    ],
+    "CurrentCreditLines": [
+      0.0,
+      500.0
+    ],
+    "OpenRevolvingAccounts": [
+      0.0,
+      500.0
+    ],
+    "OpenRevolvingMonthlyPayment": [
+      0.0,
+      1000000.0
+    ],
+    "InquiriesLast6Months": [
+      0.0,
+      1000.0
+    ],
+    "TotalInquiries": [
+      0.0,
+      5000.0
+    ],
+    "CurrentDelinquencies": [
+      0.0,
+      500.0
+    ],
+    "AmountDelinquent": [
+      0.0,
+      10000000.0
+    ],
+    "DelinquenciesLast7Years": [
+      0.0,
+      1000.0
+    ],
+    "PublicRecordsLast10Years": [
+      0.0,
+      200.0
+    ],
+    "RevolvingCreditBalance": [
+      0.0,
+      100000000.0
+    ],
+    "BankcardUtilization": [
+      0.0,
+      10.0
+    ],
+    "AvailableBankcardCredit": [
+      0.0,
+      100000000.0
+    ],
+    "TotalTrades": [
+      0.0,
+      1000.0
+    ],
+    "TradesNeverDelinquent (percentage)": [
+      0.0,
+      1.0
+    ],
+    "TradesOpenedLast6Months": [
+      0.0,
+      500.0
+    ],
+    "DebtToIncomeRatio": [
+      0.0,
+      10.01
+    ],
+    "StatedMonthlyIncome": [
+      0.0,
+      100000.0
+    ],
+    "BorrowerAPR": [
+      0.0,
+      1.0
+    ],
+    "ProsperRating (numeric)": [
+      0.0,
+      7.0
+    ],
+    "ProsperScore": [
+      1.0,
+      11.0
+    ],
+    "EstimatedLoss": [
+      0.0,
+      1.0
+    ],
+    "EstimatedEffectiveYield": [
+      -1.0,
+      1.0
+    ],
+    "TotalProsperLoans": [
+      0.0,
+      100.0
+    ],
+    "OnTimeProsperPayments": [
+      0.0,
+      2000.0
+    ],
+    "ProsperPaymentsLessThanOneMonthLate": [
+      0.0,
+      2000.0
+    ],
+    "ProsperPrincipalBorrowed": [
+      0.0,
+      10000000.0
+    ],
+    "ProsperPrincipalOutstanding": [
+      0.0,
+      10000000.0
+    ],
+    "ScorexChangeAtTimeOfListing": [
+      -600.0,
+      600.0
+    ]
+  },
+  "labels": {
+    "Term": "Plazo (meses)",
+    "LoanOriginalAmount": "Monto del préstamo (USD)",
+    "MonthlyLoanPayment": "Cuota mensual (USD)",
+    "CreditScoreRangeLower": "Puntaje de crédito (límite inferior)",
+    "EmploymentStatusDuration": "Meses en la situación laboral actual",
+    "CurrentCreditLines": "Líneas de crédito actuales",
+    "OpenRevolvingAccounts": "Cuentas revolventes abiertas",
+    "OpenRevolvingMonthlyPayment": "Pago mensual revolvente (USD)",
+    "InquiriesLast6Months": "Consultas de crédito, últimos 6 meses",
+    "TotalInquiries": "Consultas de crédito, total",
+    "CurrentDelinquencies": "Cuentas en mora hoy",
+    "AmountDelinquent": "Monto en mora (USD)",
+    "DelinquenciesLast7Years": "Moras, últimos 7 años",
+    "PublicRecordsLast10Years": "Registros públicos, últimos 10 años",
+    "RevolvingCreditBalance": "Saldo revolvente (USD)",
+    "BankcardUtilization": "Uso de tarjetas (proporción)",
+    "AvailableBankcardCredit": "Cupo disponible en tarjetas (USD)",
+    "TotalTrades": "Cuentas de crédito abiertas en la historia",
+    "TradesNeverDelinquent (percentage)": "Proporción de cuentas nunca en mora",
+    "TradesOpenedLast6Months": "Cuentas abiertas, últimos 6 meses",
+    "DebtToIncomeRatio": "Deuda / ingreso (proporción)",
+    "StatedMonthlyIncome": "Ingreso mensual declarado (USD)",
+    "BorrowerAPR": "Tasa anual del prestatario, APR (proporción)",
+    "ProsperRating (numeric)": "Calificación Prosper (1 = HR ... 7 = AA)",
+    "ProsperScore": "Puntaje Prosper",
+    "EstimatedLoss": "Pérdida estimada (proporción)",
+    "EstimatedEffectiveYield": "Rendimiento efectivo estimado (proporción)",
+    "TotalProsperLoans": "Préstamos previos en Prosper",
+    "OnTimeProsperPayments": "Pagos a tiempo en Prosper",
+    "ProsperPaymentsLessThanOneMonthLate": "Pagos con menos de un mes de atraso en Prosper",
+    "ProsperPrincipalBorrowed": "Capital prestado antes en Prosper (USD)",
+    "ProsperPrincipalOutstanding": "Capital pendiente en Prosper (USD)",
+    "ScorexChangeAtTimeOfListing": "Cambio del puntaje desde el último préstamo",
+    "IncomeRange": "Rango de ingreso anual",
+    "EmploymentStatus": "Situación laboral",
+    "IsBorrowerHomeowner": "¿Tiene vivienda propia?",
+    "IncomeVerifiable": "¿Ingreso verificable?",
+    "ListingCategory (numeric)": "Propósito del préstamo",
+    "CreditGrade": "Calificación antigua (solo antes de 2009)"
+  },
+  "review_threshold": 0.55,
+  "examples": {
+    "Préstamo real que se pagó": {
+      "Term": 36.0,
+      "LoanOriginalAmount": 4960.0,
+      "MonthlyLoanPayment": 179.17,
+      "CreditScoreRangeLower": 660.0,
+      "EmploymentStatusDuration": 51.0,
+      "CurrentCreditLines": 4.0,
+      "OpenRevolvingAccounts": 3.0,
+      "OpenRevolvingMonthlyPayment": 270.0,
+      "InquiriesLast6Months": 2.0,
+      "TotalInquiries": 5.0,
+      "CurrentDelinquencies": 0.0,
+      "AmountDelinquent": 0.0,
+      "DelinquenciesLast7Years": 0.0,
+      "PublicRecordsLast10Years": 1.0,
+      "RevolvingCreditBalance": 13403.0,
+      "BankcardUtilization": 0.8,
+      "AvailableBankcardCredit": 3254.0,
+      "TotalTrades": 11.0,
+      "TradesNeverDelinquent (percentage)": 0.9,
+      "TradesOpenedLast6Months": 0.0,
+      "DebtToIncomeRatio": 0.06,
+      "StatedMonthlyIncome": 7390.916667,
+      "BorrowerAPR": 0.21291,
+      "ProsperRating (numeric)": 3.0,
+      "ProsperScore": 8.0,
+      "EstimatedLoss": 0.098,
+      "EstimatedEffectiveYield": 0.0675,
+      "TotalProsperLoans": 1.0,
+      "OnTimeProsperPayments": 10.0,
+      "ProsperPaymentsLessThanOneMonthLate": 0.0,
+      "ProsperPrincipalBorrowed": 4000.0,
+      "ProsperPrincipalOutstanding": 0.0,
+      "ScorexChangeAtTimeOfListing": -37.0,
+      "IncomeRange": "$75,000-99,999",
+      "EmploymentStatus": "Full-time",
+      "IsBorrowerHomeowner": "FALSO",
+      "IncomeVerifiable": "VERDADERO",
+      "ListingCategory (numeric)": "1",
+      "CreditGrade": null
+    },
+    "Préstamo real que cayó en impago": {
+      "Term": 36.0,
+      "LoanOriginalAmount": 4000.0,
+      "MonthlyLoanPayment": 172.56,
+      "CreditScoreRangeLower": 680.0,
+      "EmploymentStatusDuration": 301.0,
+      "CurrentCreditLines": 11.0,
+      "OpenRevolvingAccounts": 0.0,
+      "OpenRevolvingMonthlyPayment": 0.0,
+      "InquiriesLast6Months": 2.0,
+      "TotalInquiries": 4.0,
+      "CurrentDelinquencies": 0.0,
+      "AmountDelinquent": 0.0,
+      "DelinquenciesLast7Years": 20.0,
+      "PublicRecordsLast10Years": 1.0,
+      "RevolvingCreditBalance": 0.0,
+      "BankcardUtilization": 0.0,
+      "AvailableBankcardCredit": 0.0,
+      "TotalTrades": 55.0,
+      "TradesNeverDelinquent (percentage)": 0.72,
+      "TradesOpenedLast6Months": 5.0,
+      "DebtToIncomeRatio": 0.39,
+      "StatedMonthlyIncome": 7500.0,
+      "BorrowerAPR": 0.34887,
+      "ProsperRating (numeric)": 1.0,
+      "ProsperScore": 1.0,
+      "EstimatedLoss": 0.17,
+      "EstimatedEffectiveYield": 0.2848,
+      "TotalProsperLoans": 2.0,
+      "OnTimeProsperPayments": 50.0,
+      "ProsperPaymentsLessThanOneMonthLate": 2.0,
+      "ProsperPrincipalBorrowed": 5400.0,
+      "ProsperPrincipalOutstanding": 2111.83,
+      "ScorexChangeAtTimeOfListing": -11.0,
+      "IncomeRange": "$75,000-99,999",
+      "EmploymentStatus": "Employed",
+      "IsBorrowerHomeowner": "VERDADERO",
+      "IncomeVerifiable": "VERDADERO",
+      "ListingCategory (numeric)": "7",
+      "CreditGrade": null
+    }
+  },
+  "cost_matrix": [
+    [
+      0.0,
+      1.0
+    ],
+    [
+      4.0,
+      0.0
+    ]
+  ],
+  "app_title": "Eco-Score · Riesgo de impago",
+  "responsible_use": "- Este puntaje **prioriza la revisión** de una solicitud; la decisión final es de una persona. No rechaces de forma automática.\n- Se entrenó con préstamos de Prosper de 2005 a 2014 que ya terminaron: no lo uses con solicitudes actuales sin validarlo de nuevo.\n- Usa ingreso, vivienda y situación laboral: antes de un uso real debe revisarlo el área legal.\n- No usa el estado de residencia. El índice climático **no** entra al modelo.\n- Límites completos en `models/ficha_modelo.md`.",
+  "field_groups": {
+    "Condiciones del préstamo": [
+      "LoanOriginalAmount",
+      "Term",
+      "MonthlyLoanPayment",
+      "BorrowerAPR",
+      "ListingCategory (numeric)"
+    ],
+    "Ingreso y empleo": [
+      "StatedMonthlyIncome",
+      "IncomeRange",
+      "IncomeVerifiable",
+      "EmploymentStatus",
+      "EmploymentStatusDuration",
+      "IsBorrowerHomeowner",
+      "DebtToIncomeRatio"
+    ],
+    "Historial de crédito": [
+      "CreditScoreRangeLower",
+      "CurrentCreditLines",
+      "OpenRevolvingAccounts",
+      "OpenRevolvingMonthlyPayment",
+      "RevolvingCreditBalance",
+      "BankcardUtilization",
+      "AvailableBankcardCredit",
+      "InquiriesLast6Months",
+      "TotalInquiries",
+      "CurrentDelinquencies",
+      "AmountDelinquent",
+      "DelinquenciesLast7Years",
+      "PublicRecordsLast10Years",
+      "TotalTrades",
+      "TradesNeverDelinquent (percentage)",
+      "TradesOpenedLast6Months"
+    ],
+    "Evaluación de Prosper": [
+      "ProsperRating (numeric)",
+      "ProsperScore",
+      "CreditGrade",
+      "EstimatedLoss",
+      "EstimatedEffectiveYield"
+    ],
+    "Historial en Prosper": [
+      "TotalProsperLoans",
+      "OnTimeProsperPayments",
+      "ProsperPaymentsLessThanOneMonthLate",
+      "ProsperPrincipalBorrowed",
+      "ProsperPrincipalOutstanding",
+      "ScorexChangeAtTimeOfListing"
+    ]
+  },
+  "category_labels": {
+    "ListingCategory (numeric)": {
+      "0": "No disponible",
+      "1": "Consolidación de deudas",
+      "2": "Mejoras del hogar",
+      "3": "Negocio",
+      "4": "Préstamo personal",
+      "5": "Uso estudiantil",
+      "6": "Automóvil",
+      "7": "Otro",
+      "8": "Bebé y adopción",
+      "9": "Barco",
+      "10": "Procedimiento estético",
+      "11": "Anillo de compromiso",
+      "12": "Préstamos verdes",
+      "13": "Gastos del hogar",
+      "14": "Compras grandes",
+      "15": "Médico o dental",
+      "16": "Motocicleta",
+      "17": "Casa rodante",
+      "18": "Impuestos",
+      "19": "Vacaciones",
+      "20": "Préstamo para boda"
+    },
+    "IsBorrowerHomeowner": {
+      "FALSO": "No",
+      "VERDADERO": "Sí"
+    },
+    "IncomeVerifiable": {
+      "FALSO": "No",
+      "VERDADERO": "Sí"
+    }
+  },
+  "performance": {
+    "pr_auc": 0.6208753232643422,
+    "pr_auc_low": 0.6043624001027884,
+    "pr_auc_high": 0.6407050463423962,
+    "pr_auc_recent": 0.4788829281257714,
+    "pr_auc_recent_low": 0.4480196739895029,
+    "pr_auc_recent_high": 0.5102232168336226,
+    "baseline_pr_auc": 0.31036222379174655,
+    "flagged_rate": 0.6374735142770659,
+    "recall_default": 0.8751625487646294,
+    "precision_default": 0.42608420386198165
+  },
+  "essential_fields": [
+    "LoanOriginalAmount",
+    "Term",
+    "MonthlyLoanPayment",
+    "BorrowerAPR",
+    "ListingCategory (numeric)",
+    "StatedMonthlyIncome",
+    "DebtToIncomeRatio",
+    "CreditScoreRangeLower",
+    "TotalInquiries",
+    "InquiriesLast6Months",
+    "CurrentDelinquencies",
+    "EstimatedEffectiveYield"
+  ],
+  "reduced_input": {
+    "pr_auc_all": 0.6080485648975461,
+    "pr_auc_essential": 0.581640312305819,
+    "pr_auc_recent_all": 0.48978342157355115,
+    "pr_auc_recent_essential": 0.4382314303634154,
+    "cost_all": 0.5072653884964682,
+    "cost_essential": 0.5423814328960646,
+    "decisions_changed": 0.11422805247225025
+  }
+}

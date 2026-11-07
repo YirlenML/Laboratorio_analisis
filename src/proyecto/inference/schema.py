@@ -34,6 +34,7 @@ def build_schema(
     valid_range: dict | None = None,
     labels: dict | None = None,
     review_threshold: float = 0.55,
+    examples: dict | None = None,
     path: str | Path | None = None,
 ) -> dict:
     """Construye (y opcionalmente guarda) el esquema de entrada a partir de los datos de ENTRENAMIENTO.
@@ -46,6 +47,7 @@ def build_schema(
     - `valid_range`: opcional; {columna: (mínimo, máximo)} de lo que es POSIBLE en el mundo real. Fuera de ese
       rango, `predict` se niega a responder. Distinto del rango observado, que solo genera una advertencia.
     - `labels`: opcional; {columna: etiqueta legible} para la app.
+    - `examples`: opcional; perfiles de ejemplo para la app ({nombre: {columna: valor}}).
     """
     missing = [c for c in numeric + categorical if c not in df.columns]
     if missing:
@@ -68,6 +70,7 @@ def build_schema(
         "valid_range": {k: [float(v[0]), float(v[1])] for k, v in (valid_range or {}).items()},
         "labels": dict(labels or {}),
         "review_threshold": float(review_threshold),
+        "examples": dict(examples or {}),
     }
     for col in numeric:
         values = pd.to_numeric(df[col], errors="coerce").dropna()

@@ -11,7 +11,9 @@ Cifras de `notebooks/08_registro_modelo.ipynb` y `reports/08_registro.json`.
 | Nombre del modelo registrado | `eco_score_default` |
 | Versión | 1 |
 | Alias | `champion` |
-| Quién lo registró y cuándo | Juan Camilo Ramirez, 2026-11-05 20:25:38 |
+| Quién lo registró y cuándo | Primer registro: Juan Camilo Ramirez, 2026-11-05 20:25:38. Registro vigente: 2026-11-06 17:24:20, ejecución `6ac80da8a88e4d82a5f2c3291a3eae7d` |
+
+**Por qué hay un segundo registro (6 nov):** el registro local del 5 nov no estaba en el equipo donde se continuó el trabajo, porque `mlflow_local.db` y `notebooks/mlruns/` no se suben al repositorio. Se reentrenó con el mismo entrenamiento, los mismos parámetros congelados y sin calibrar, y se ejecutó de nuevo el notebook 08. Las probabilidades en los 9.911 préstamos de la prueba son iguales a las guardadas en la etapa 7 (diferencia máxima 0,0). No se calculó ninguna métrica nueva con la prueba ni se cambió ninguna decisión. Sigue siendo la versión 1 porque es un registro local nuevo. El modelo también se exportó a `models/model.joblib` desde `champion`, con la misma comprobación.
 
 ## 2. Qué se registró junto al modelo
 
@@ -22,9 +24,10 @@ Cifras de `notebooks/08_registro_modelo.ipynb` y `reports/08_registro.json`.
   en `reports/08_registro.json`. El ejemplo tiene 5 filas. No incluye identificadores de prestatario ni `BorrowerState`.
 - Etiquetas: `etapa`, `decisiones_congeladas`, `unidad_de_particion`, `prueba_filas` y `supera_linea_base`.
 
-**Ojo para la app:** 4 de las 43 columnas (`LoanOriginationDate`, `FirstRecordedCreditLine`, `TotalProsperPaymentsBilled` y
-`ProsperPaymentsOneMonthPlusLate`) las lee `add_features`, pero el modelo no usa lo que calcula con ellas. Deben existir en la
-entrada; el notebook 09 debe decidir cómo llenarlas.
+**Decisión para la app (notebook 09, 6 nov):** 4 de las 43 columnas (`LoanOriginationDate`, `FirstRecordedCreditLine`,
+`TotalProsperPaymentsBilled` y `ProsperPaymentsOneMonthPlusLate`) las lee `add_features`, pero el modelo no usa lo que calcula con
+ellas. Por eso no se le preguntan a la persona: el formulario pide 39 columnas y `fill_unused_columns()` agrega esas 4 vacías. El
+notebook 09 comprueba que, así, las probabilidades en los 9.911 préstamos de la prueba no cambian (diferencia máxima 0,0).
 
 ## 3. Comprobación de ida y vuelta
 

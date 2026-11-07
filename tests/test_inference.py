@@ -16,9 +16,15 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder
 
+from proyecto.config import INPUT_LABELS, PLAUSIBLE_RANGE
+from proyecto.features.engineering import add_features
 from proyecto.inference.predict import (
+    FEATURE_STEP_NUMERIC,
+    FEATURE_STEP_TEXT,
     InputValidationError,
     decide_min_cost,
+    fill_unused_columns,
+    form_columns,
     input_frame,
     predict_with_scores,
     required_columns,
@@ -106,6 +112,60 @@ def test_unseen_category_and_out_of_range_are_warnings(data):
     assert any("ciudad" in w for w in warnings) and any("ingreso" in w for w in warnings)
 
 
+def test_error_uses_the_spanish_label_of_the_field(data):
+    schema = make_schema(data, labels={"edad": "Edad (años)"})
+    with pytest.raises(InputValidationError) as error:
+        validate_inputs(row(edad=-500), schema)
+    assert str(error.value) == "Edad (años): debe estar entre 0 y 120"
+
+
+def test_error_without_a_label_falls_back_to_the_column_name(data):
+    with pytest.raises(InputValidationError, match="^edad: debe estar entre 0 y 120$"):
+        validate_inputs(row(edad=-500), make_schema(data))
+
+
+def test_non_numeric_error_uses_the_label(data):
+    schema = make_schema(data, labels={"ingreso": "Ingreso mensual"})
+    with pytest.raises(InputValidationError, match="Ingreso mensual: hay valores que no son números"):
+        validate_inputs(row(ingreso="mucho"), schema)
+
+
+def test_error_numbers_are_not_in_scientific_notation(data):
+    schema = make_schema(data)
+    schema["valid_range"]["ingreso"] = [1.0, 100_000_000.0]
+    with pytest.raises(InputValidationError) as error:
+        validate_inputs(row(ingreso=-5.0), schema)
+    assert str(error.value) == "ingreso: debe estar entre 1 y 100.000.000"
+
+
+def test_error_keeps_the_decimals_of_the_limit_with_a_comma(data):
+    schema = make_schema(data)
+    schema["valid_range"]["ingreso"] = [0.0, 10.01]
+    with pytest.raises(InputValidationError, match="debe estar entre 0 y 10,01"):
+        validate_inputs(row(ingreso=11.0), schema)
+
+
+def test_error_names_every_invalid_field(data):
+    schema = make_schema(data, labels={"edad": "Edad (años)", "ingreso": "Ingreso mensual"})
+    schema["valid_range"]["ingreso"] = [0.0, 1_000_000.0]
+    with pytest.raises(InputValidationError) as error:
+        validate_inputs(row(edad=-500, ingreso=-1.0), schema)
+    assert str(error.value) == "Edad (años): debe estar entre 0 y 120; Ingreso mensual: debe estar entre 0 y 1.000.000"
+
+
+def test_warnings_use_the_label_and_readable_numbers(data):
+    schema = make_schema(data, labels={"ingreso": "Ingreso mensual", "ciudad": "Ciudad"})
+    schema["observed_range"]["ingreso"] = [0.0, 1_500_000.0]
+    warnings = validate_inputs(row(ingreso=2_000_000.0, ciudad="luna"), schema)
+    assert "Ciudad: categoría no vista en el entrenamiento (luna)" in warnings
+    assert "Ingreso mensual: fuera del rango visto en el entrenamiento (0 a 1.500.000)" in warnings
+
+
+def test_value_at_the_limit_of_the_range_is_accepted(data):
+    schema = make_schema(data)
+    assert validate_inputs(row(edad=0), schema) == validate_inputs(row(edad=120), schema)
+
+
 def test_predict_returns_probabilities_that_sum_to_one(data, model):
     result = predict_with_scores(row(), model, make_schema(data))
     assert np.isclose(result[["proba_bajo", "proba_alto"]].sum(axis=1).iloc[0], 1.0)
@@ -155,3 +215,37 @@ def test_input_frame_converts_types_and_keeps_missing_values():
     assert out["CreditGrade"].tolist() == ["a", None]
     assert out["ListingCategory (numeric)"].tolist() == ["3", "4"]
     assert df["Term"].dtype != "float64"  # no modifica el original
+
+
+def test_build_schema_keeps_examples(data):
+    schema = make_schema(data, examples={"perfil": {"edad": 40}})
+    assert schema["examples"] == {"perfil": {"edad": 40}}
+    assert make_schema(data)["examples"] == {}
+
+
+def test_form_columns_leave_out_the_four_unused_columns():
+    numeric, categorical = form_columns()
+    assert len(numeric) + len(categorical) == 39
+    assert set(FEATURE_STEP_NUMERIC + FEATURE_STEP_TEXT).isdisjoint(numeric + categorical)
+
+
+def test_every_form_column_has_a_label_and_every_numeric_a_possible_range():
+    numeric, categorical = form_columns()
+    assert set(INPUT_LABELS) == set(numeric + categorical)
+    assert set(PLAUSIBLE_RANGE) == set(numeric)
+    assert all(low < high for low, high in PLAUSIBLE_RANGE.values())
+
+
+def test_fill_unused_columns_adds_only_what_is_missing():
+    df = pd.DataFrame({"Term": [36], "LoanOriginationDate": ["2012-04-19"]})
+    out = fill_unused_columns(df)
+    assert out["LoanOriginationDate"].tolist() == ["2012-04-19"]  # si ya viene, se respeta
+    assert out["FirstRecordedCreditLine"].isna().all() and out["TotalProsperPaymentsBilled"].isna().all()
+    assert "FirstRecordedCreditLine" not in df.columns  # no modifica el original
+
+
+def test_add_features_accepts_a_form_row_with_the_unused_columns_empty():
+    numeric, categorical = form_columns()
+    form_row = pd.DataFrame([{**{c: 1.0 for c in numeric}, **{c: "x" for c in categorical}}])
+    out = add_features(fill_unused_columns(form_row))
+    assert len(out) == 1 and out["has_prior_prosper_loan"].iloc[0] == 1.0

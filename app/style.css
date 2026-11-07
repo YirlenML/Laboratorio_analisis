@@ -1,0 +1,280 @@
+/* Diseño de Eco-Score: paleta agua marina. Los colores se definen una sola vez, aquí arriba. */
+:root {
+  --aqua-900: #0b4f4a;
+  --aqua-800: #0d625c;
+  --aqua-700: #0f766e;
+  --aqua-500: #14b8a6;
+  --aqua-300: #7fe7d8;
+  --aqua-100: #d3f5ef;
+  --aqua-50: #f0fbf9;
+  --ink: #12383a;
+  --muted: #4b6b6b;
+  --line: #cdeae5;
+  --surface: #ffffff;
+  --review: #a93f1b;
+  --review-fill: #d9652b;
+  --review-soft: #fdeee6;
+  --shadow: 0 6px 20px rgba(11, 79, 74, 0.08);
+}
+
+/* Página */
+.stApp {
+  background: linear-gradient(180deg, var(--aqua-100) 0, var(--aqua-50) 260px);
+}
+.block-container {
+  max-width: 1320px;
+  padding-top: 1.75rem;
+  padding-bottom: 3rem;
+}
+header[data-testid="stHeader"] {
+  background: transparent;
+}
+#MainMenu,
+footer,
+[data-testid="stToolbar"],
+[data-testid="stDecoration"] {
+  visibility: hidden;
+}
+
+/* Encabezado */
+.st-key-hero {
+  padding: 1.75rem 2rem;
+  border-radius: 20px;
+  background: linear-gradient(120deg, var(--aqua-900), var(--aqua-700) 60%, var(--aqua-500));
+  box-shadow: var(--shadow);
+}
+.st-key-hero h1 {
+  padding: 0;
+  color: #ffffff;
+  font-size: clamp(1.7rem, 3vw, 2.4rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.st-key-hero h1::before {
+  content: "";
+  display: inline-block;
+  width: 1.5em;
+  height: 1.5em;
+  margin-right: 0.45em;
+  border-radius: 14px;
+  background-color: rgba(255, 255, 255, 0.16);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23ffffff' d='M12 2.7S5.5 9.7 5.5 14.5a6.5 6.5 0 0 0 13 0C18.5 9.7 12 2.7 12 2.7z'/%3E%3C/svg%3E");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 62%;
+  vertical-align: middle;
+}
+.st-key-hero p {
+  margin: 0;
+  color: var(--aqua-100);
+  font-size: 1.05rem;
+}
+[data-testid="stCaptionContainer"],
+[data-testid="stCaptionContainer"] p {
+  color: var(--muted) !important;
+  opacity: 1;
+}
+
+/* Tarjetas */
+.st-key-request,
+.st-key-responsible,
+.st-key-performance,
+.st-key-result-review,
+.st-key-result-clear {
+  border: 1px solid var(--line) !important;
+  border-radius: 18px !important;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+.st-key-result-clear {
+  border-top: 5px solid var(--aqua-700) !important;
+}
+.st-key-result-review {
+  border-top: 5px solid var(--review-fill) !important;
+}
+
+/* Títulos */
+h2,
+h3,
+h4 {
+  color: var(--aqua-900) !important;
+}
+h3 {
+  font-size: 1.2rem !important;
+  font-weight: 650 !important;
+}
+h4 {
+  font-size: 1rem !important;
+  font-weight: 650 !important;
+}
+
+/* Campos */
+[data-testid="stNumberInputContainer"],
+[data-baseweb="select"] > div {
+  border-radius: 10px !important;
+}
+[data-testid="stWidgetLabel"] p {
+  color: var(--ink);
+  font-size: 0.86rem;
+  font-weight: 550;
+}
+[data-testid="stExpander"] details {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--aqua-50);
+}
+[data-testid="stExpander"] summary p {
+  color: var(--aqua-800);
+  font-weight: 650;
+}
+
+/* Botón */
+[data-testid="stFormSubmitButton"] button {
+  min-height: 3rem;
+  border: 0;
+  border-radius: 12px;
+  background: linear-gradient(120deg, var(--aqua-800), var(--aqua-700));
+  color: #ffffff;
+  font-weight: 700;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+[data-testid="stFormSubmitButton"] button:hover {
+  box-shadow: 0 8px 18px rgba(15, 118, 110, 0.3);
+  transform: translateY(-1px);
+}
+
+/* Resultado */
+[data-testid="stMetricLabel"] p {
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+[data-testid="stMetricValue"] {
+  color: var(--aqua-900);
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+.st-key-result-review [data-testid="stMetricValue"] {
+  color: var(--review);
+}
+
+/* Medidor de probabilidad */
+.meter-status {
+  display: inline-flex;
+  gap: 0.4rem;
+  align-items: center;
+  margin-bottom: 0.7rem;
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 650;
+}
+.meter-status svg {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+}
+.meter-status.clear {
+  background: var(--aqua-100);
+  color: var(--aqua-900);
+}
+.meter-status.review {
+  background: var(--review-soft);
+  color: var(--review);
+}
+.meter-track {
+  position: relative;
+  height: 10px;
+  border-radius: 5px;
+  background: var(--aqua-100);
+}
+.meter-fill {
+  height: 100%;
+  border-radius: 5px;
+}
+.meter-fill.clear {
+  background: var(--aqua-700);
+}
+.meter-fill.review {
+  background: var(--review-fill);
+}
+.meter-mark {
+  position: absolute;
+  top: -4px;
+  bottom: -4px;
+  width: 2px;
+  background: var(--ink);
+  box-shadow: 0 0 0 2px var(--surface);
+}
+.meter-scale {
+  position: relative;
+  height: 1.4rem;
+  margin-top: 0.4rem;
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+.meter-scale span {
+  position: absolute;
+}
+.meter-scale .threshold {
+  color: var(--ink);
+  font-weight: 650;
+  transform: translateX(-50%);
+}
+.meter-scale .end {
+  right: 0;
+}
+
+/* Rendimiento */
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.6rem;
+}
+.tile {
+  padding: 0.7rem 0.85rem;
+  border-radius: 12px;
+  background: var(--aqua-50);
+}
+.tile.main {
+  background: var(--aqua-100);
+}
+.tile strong {
+  display: block;
+  color: var(--aqua-900);
+  font-size: 1.45rem;
+  font-variant-numeric: tabular-nums;
+}
+.tile span {
+  color: var(--muted);
+  font-size: 0.76rem;
+  line-height: 1.25;
+}
+.st-key-responsible li,
+.st-key-performance li {
+  color: var(--ink);
+  font-size: 0.84rem;
+}
+
+/* Mensajes */
+[data-testid="stAlert"] > div {
+  border-radius: 12px;
+}
+
+@media (max-width: 640px) {
+  .st-key-hero {
+    padding: 1.25rem;
+  }
+  .tiles {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-testid="stFormSubmitButton"] button {
+    transition: none;
+  }
+  [data-testid="stFormSubmitButton"] button:hover {
+    transform: none;
+  }
+}

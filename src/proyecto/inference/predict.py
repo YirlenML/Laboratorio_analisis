@@ -40,6 +40,35 @@ def required_columns() -> tuple[list[str], list[str]]:
     return numeric, categorical + FEATURE_STEP_TEXT
 
 
+def form_columns() -> tuple[list[str], list[str]]:
+    """(numéricas, categóricas) que el modelo sí usa y que se le preguntan a una persona."""
+    numeric, text = required_columns()
+    return (
+        [c for c in numeric if c not in FEATURE_STEP_NUMERIC],
+        [c for c in text if c not in FEATURE_STEP_TEXT],
+    )
+
+
+def fill_unused_columns(df: pd.DataFrame) -> pd.DataFrame:
+    """Agrega vacías las 4 columnas que `add_features` lee aunque el modelo no use lo que calcula con ellas.
+
+    Si ya vienen, se respetan. Así el formulario no pregunta datos que no cambian la predicción.
+    """
+    out = df.copy()
+    for column in FEATURE_STEP_NUMERIC + FEATURE_STEP_TEXT:
+        if column not in out.columns:
+            out[column] = np.nan
+    return out
+
+
+def blank_unasked(df: pd.DataFrame, asked: list[str]) -> pd.DataFrame:
+    """Deja vacías las columnas que no se le pidieron a la persona. Sirve para medir qué se pierde al no pedirlas."""
+    out = df.copy()
+    for column in out.columns.difference(asked):
+        out[column] = np.nan
+    return out
+
+
 def input_frame(df: pd.DataFrame) -> pd.DataFrame:
     """Deja `df` con las columnas de entrada: numéricas en float y el resto como texto, con los vacíos como `None`.
 
@@ -63,33 +92,47 @@ def load_model(path: str | Path):
     return joblib.load(path)
 
 
+def _readable_number(value: float) -> str:
+    """Número para un mensaje, sin notación científica: punto de miles y coma decimal, sin ceros de sobra."""
+    text = f"{value:,.6f}".rstrip("0").rstrip(".")
+    return text.translate(str.maketrans(",.", ".,"))
+
+
 def validate_inputs(df: pd.DataFrame, schema: dict) -> list[str]:
-    """Valida columnas, tipos y rangos. Lanza InputValidationError si hay errores; devuelve advertencias."""
+    """Valida columnas, tipos y rangos. Lanza InputValidationError si hay errores; devuelve advertencias.
+
+    Los mensajes nombran el campo con su etiqueta del esquema; si no tiene etiqueta, con el nombre de la columna.
+    """
     numeric, categorical = schema["numeric"], schema["categorical"]
     missing = [c for c in numeric + categorical if c not in df.columns]
     if missing:
         raise InputValidationError(f"Faltan columnas: {', '.join(missing)}")
 
+    labels = schema.get("labels", {})
     errors, warnings = [], []
     for col in numeric:
+        name = labels.get(col, col)
         values = pd.to_numeric(df[col], errors="coerce")
         if (values.isna() & df[col].notna()).any():
-            errors.append(f"{col}: hay valores que no son números")
+            errors.append(f"{name}: hay valores que no son números")
         if col in schema.get("valid_range", {}):
             low, high = schema["valid_range"][col]
             if (values.notna() & ~values.between(low, high)).any():
-                errors.append(f"{col}: debe estar entre {low:g} y {high:g}")
+                errors.append(f"{name}: debe estar entre {_readable_number(low)} y {_readable_number(high)}")
     if errors:
         raise InputValidationError("; ".join(errors))
 
     for col, known in schema.get("categories", {}).items():
         unseen = set(df[col].dropna().astype(str)) - set(known)
         if unseen:
-            warnings.append(f"{col}: categoría no vista en el entrenamiento ({', '.join(sorted(unseen))})")
+            warnings.append(f"{labels.get(col, col)}: categoría no vista en el entrenamiento ({', '.join(sorted(unseen))})")
     for col, (low, high) in schema.get("observed_range", {}).items():
         values = pd.to_numeric(df[col], errors="coerce")
         if ((values < low) | (values > high)).any():
-            warnings.append(f"{col}: fuera del rango visto en el entrenamiento ({low:g} a {high:g})")
+            warnings.append(
+                f"{labels.get(col, col)}: fuera del rango visto en el entrenamiento "
+                f"({_readable_number(low)} a {_readable_number(high)})"
+            )
     return warnings
 
 
@@ -119,7 +162,7 @@ def predict_with_scores(df: pd.DataFrame, model, schema: dict) -> pd.DataFrame:
     """
     warnings = validate_inputs(df, schema)
     class_names = schema["class_names"]
-    proba = _ordered_proba(model, df, class_names)
+    proba = _ordered_proba(model, fill_unused_columns(df), class_names)
     most_likely = proba.argmax(axis=1)
 
     cost = schema.get("cost_matrix")

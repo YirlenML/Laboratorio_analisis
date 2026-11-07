@@ -85,3 +85,183 @@ CLIMATE_DEFAULT = 50.0
 
 # Desde esta fecha Prosper asigna ProsperRating, ProsperScore y las estimaciones (diccionario de datos de Kaggle)
 PROSPER_RATING_START = "2009-07-01"
+
+# Rangos POSIBLES en el mundo real (conocimiento del analista, no de los datos). Fuera de ellos, la predicción se niega.
+# Son más amplios que lo observado: el rango observado solo genera una advertencia (ver `validate_inputs`).
+PLAUSIBLE_RANGE = {
+    "Term": (1, 120),  # meses
+    "LoanOriginalAmount": (1, 1_000_000),  # USD
+    "MonthlyLoanPayment": (0, 100_000),  # USD/mes
+    "CreditScoreRangeLower": (300, 900),  # escala de los puntajes de crédito; 0 es imposible (decisión 7 del EDA)
+    "EmploymentStatusDuration": (0, 960),  # meses: 80 años
+    "CurrentCreditLines": (0, 500),
+    "OpenRevolvingAccounts": (0, 500),
+    "OpenRevolvingMonthlyPayment": (0, 1_000_000),
+    "InquiriesLast6Months": (0, 1_000),
+    "TotalInquiries": (0, 5_000),
+    "CurrentDelinquencies": (0, 500),
+    "AmountDelinquent": (0, 10_000_000),
+    "DelinquenciesLast7Years": (0, 1_000),
+    "PublicRecordsLast10Years": (0, 200),
+    "RevolvingCreditBalance": (0, 100_000_000),
+    "BankcardUtilization": (0, 10),  # proporción: puede pasar de 1 si se excede el cupo
+    "AvailableBankcardCredit": (0, 100_000_000),
+    "TotalTrades": (0, 1_000),
+    "TradesNeverDelinquent (percentage)": (0, 1),  # llega como proporción
+    "TradesOpenedLast6Months": (0, 500),
+    "DebtToIncomeRatio": (0, 10.01),  # 10,01 es el tope del sistema (diccionario de datos)
+    "StatedMonthlyIncome": (0, MAX_MONTHLY_INCOME),  # decisión 7 del EDA
+    "BorrowerAPR": (0, 1),  # proporción
+    "ProsperRating (numeric)": (0, 7),  # diccionario de datos: 0 = N/A ... 7 = AA
+    "ProsperScore": (1, 11),  # el diccionario dice 1-10, pero el entrenamiento trae 11 (reports/04_features.md)
+    "EstimatedLoss": (0, 1),  # proporción
+    "EstimatedEffectiveYield": (-1, 1),  # proporción; puede ser negativa
+    "TotalProsperLoans": (0, 100),
+    "OnTimeProsperPayments": (0, 2_000),
+    "ProsperPaymentsLessThanOneMonthLate": (0, 2_000),
+    "ProsperPrincipalBorrowed": (0, 10_000_000),
+    "ProsperPrincipalOutstanding": (0, 10_000_000),
+    "ScorexChangeAtTimeOfListing": (-600, 600),  # los puntajes van de 300 a 900
+}
+
+# Etiquetas del formulario de la app
+INPUT_LABELS = {
+    "Term": "Plazo (meses)",
+    "LoanOriginalAmount": "Monto del préstamo (USD)",
+    "MonthlyLoanPayment": "Cuota mensual (USD)",
+    "CreditScoreRangeLower": "Puntaje de crédito (límite inferior)",
+    "EmploymentStatusDuration": "Meses en la situación laboral actual",
+    "CurrentCreditLines": "Líneas de crédito actuales",
+    "OpenRevolvingAccounts": "Cuentas revolventes abiertas",
+    "OpenRevolvingMonthlyPayment": "Pago mensual revolvente (USD)",
+    "InquiriesLast6Months": "Consultas de crédito, últimos 6 meses",
+    "TotalInquiries": "Consultas de crédito, total",
+    "CurrentDelinquencies": "Cuentas en mora hoy",
+    "AmountDelinquent": "Monto en mora (USD)",
+    "DelinquenciesLast7Years": "Moras, últimos 7 años",
+    "PublicRecordsLast10Years": "Registros públicos, últimos 10 años",
+    "RevolvingCreditBalance": "Saldo revolvente (USD)",
+    "BankcardUtilization": "Uso de tarjetas (proporción)",
+    "AvailableBankcardCredit": "Cupo disponible en tarjetas (USD)",
+    "TotalTrades": "Cuentas de crédito abiertas en la historia",
+    "TradesNeverDelinquent (percentage)": "Proporción de cuentas nunca en mora",
+    "TradesOpenedLast6Months": "Cuentas abiertas, últimos 6 meses",
+    "DebtToIncomeRatio": "Deuda / ingreso (proporción)",
+    "StatedMonthlyIncome": "Ingreso mensual declarado (USD)",
+    "BorrowerAPR": "Tasa anual del prestatario, APR (proporción)",
+    "ProsperRating (numeric)": "Calificación Prosper (1 = HR ... 7 = AA)",
+    "ProsperScore": "Puntaje Prosper",
+    "EstimatedLoss": "Pérdida estimada (proporción)",
+    "EstimatedEffectiveYield": "Rendimiento efectivo estimado (proporción)",
+    "TotalProsperLoans": "Préstamos previos en Prosper",
+    "OnTimeProsperPayments": "Pagos a tiempo en Prosper",
+    "ProsperPaymentsLessThanOneMonthLate": "Pagos con menos de un mes de atraso en Prosper",
+    "ProsperPrincipalBorrowed": "Capital prestado antes en Prosper (USD)",
+    "ProsperPrincipalOutstanding": "Capital pendiente en Prosper (USD)",
+    "ScorexChangeAtTimeOfListing": "Cambio del puntaje desde el último préstamo",
+    "IncomeRange": "Rango de ingreso anual",
+    "EmploymentStatus": "Situación laboral",
+    "IsBorrowerHomeowner": "¿Tiene vivienda propia?",
+    "IncomeVerifiable": "¿Ingreso verificable?",
+    "ListingCategory (numeric)": "Propósito del préstamo",
+    "CreditGrade": "Calificación antigua (solo antes de 2009)",
+}
+
+# Nombres visibles de los propósitos (traducidos de data/diccionario_datos.md). El modelo sigue recibiendo el código.
+LISTING_CATEGORY_LABELS = {
+    "0": "No disponible",
+    "1": "Consolidación de deudas",
+    "2": "Mejoras del hogar",
+    "3": "Negocio",
+    "4": "Préstamo personal",
+    "5": "Uso estudiantil",
+    "6": "Automóvil",
+    "7": "Otro",
+    "8": "Bebé y adopción",
+    "9": "Barco",
+    "10": "Procedimiento estético",
+    "11": "Anillo de compromiso",
+    "12": "Préstamos verdes",
+    "13": "Gastos del hogar",
+    "14": "Compras grandes",
+    "15": "Médico o dental",
+    "16": "Motocicleta",
+    "17": "Casa rodante",
+    "18": "Impuestos",
+    "19": "Vacaciones",
+    "20": "Préstamo para boda",
+}
+
+# Nombres visibles de los valores FALSO/VERDADERO; el modelo sigue recibiendo el valor original
+YES_NO_LABELS = {"FALSO": "No", "VERDADERO": "Sí"}
+
+# Grupos del formulario: las 39 columnas de `form_columns()`, cada una una sola vez
+FIELD_GROUPS = {
+    "Condiciones del préstamo": [
+        "LoanOriginalAmount",
+        "Term",
+        "MonthlyLoanPayment",
+        "BorrowerAPR",
+        "ListingCategory (numeric)",
+    ],
+    "Ingreso y empleo": [
+        "StatedMonthlyIncome",
+        "IncomeRange",
+        "IncomeVerifiable",
+        "EmploymentStatus",
+        "EmploymentStatusDuration",
+        "IsBorrowerHomeowner",
+        "DebtToIncomeRatio",
+    ],
+    "Historial de crédito": [
+        "CreditScoreRangeLower",
+        "CurrentCreditLines",
+        "OpenRevolvingAccounts",
+        "OpenRevolvingMonthlyPayment",
+        "RevolvingCreditBalance",
+        "BankcardUtilization",
+        "AvailableBankcardCredit",
+        "InquiriesLast6Months",
+        "TotalInquiries",
+        "CurrentDelinquencies",
+        "AmountDelinquent",
+        "DelinquenciesLast7Years",
+        "PublicRecordsLast10Years",
+        "TotalTrades",
+        "TradesNeverDelinquent (percentage)",
+        "TradesOpenedLast6Months",
+    ],
+    "Evaluación de Prosper": [
+        "ProsperRating (numeric)",
+        "ProsperScore",
+        "CreditGrade",
+        "EstimatedLoss",
+        "EstimatedEffectiveYield",
+    ],
+    "Historial en Prosper": [
+        "TotalProsperLoans",
+        "OnTimeProsperPayments",
+        "ProsperPaymentsLessThanOneMonthLate",
+        "ProsperPrincipalBorrowed",
+        "ProsperPrincipalOutstanding",
+        "ScorexChangeAtTimeOfListing",
+    ],
+}
+
+# Datos que la app pide a la vista; los demás son opcionales. Salen del peso SHAP de la etapa 7, sin `CreditGrade`, que
+# solo existe antes de 2009, y con el monto, sin el cual una solicitud no se entiende. Lo que se pierde por no llenar el
+# resto se mide con la reserva en el notebook 09 y se muestra en la app.
+ESSENTIAL_FIELDS = [
+    "LoanOriginalAmount",
+    "Term",
+    "MonthlyLoanPayment",
+    "BorrowerAPR",
+    "ListingCategory (numeric)",
+    "StatedMonthlyIncome",
+    "DebtToIncomeRatio",
+    "CreditScoreRangeLower",
+    "TotalInquiries",
+    "InquiriesLast6Months",
+    "CurrentDelinquencies",
+    "EstimatedEffectiveYield",
+]

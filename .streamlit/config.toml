@@ -1,0 +1,10 @@
+# Tema de Eco-Score. La app se ve igual en local y en Streamlit Community Cloud.
+[theme]
+base = "light"
+primaryColor = "#0f766e"
+backgroundColor = "#f0fbf9"
+secondaryBackgroundColor = "#e6f7f4"
+textColor = "#12383a"
+
+[browser]
+gatherUsageStats = false
